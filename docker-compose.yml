@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  app:
+    container_name: node-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017/myapp
+    depends_on:
+      - mongo
+    volumes:
+      - ./:/app
+  mongo:
+    container_name: mongo-db
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
